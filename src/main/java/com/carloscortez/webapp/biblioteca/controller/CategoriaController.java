@@ -25,6 +25,7 @@ public class CategoriaController{
     @Autowired
     CategoriaService categoriaService;
 
+    @GetMapping("/categorias")
     public ResponseEntity<?> listarCategorias(){
         try {
             return ResponseEntity.ok(categoriaService.listarCategorias());
