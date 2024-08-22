@@ -27,20 +27,26 @@ public class ClienteController {
     ClienteService clienteService;
 
     @GetMapping("/clientes")
-    public ResponseEntity<List<Cliente>> listarClientes(){
+    public ResponseEntity<?> listarClientes(){
         try {
             return ResponseEntity.ok(clienteService.listarClientes());
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Error");
+            response.put("err", "No se encontraron Clientes");
+            return ResponseEntity.badRequest().body(response);
         }
     }
 
     @GetMapping("/cliente")
-    public ResponseEntity<Cliente> buscarClientePorId(@RequestParam Long id){
+    public ResponseEntity<?> buscarClientePorId(@RequestParam Long id){
         try {
             return ResponseEntity.ok(clienteService.buscarClientePorId(id));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Error");
+            response.put("err", "No se encontró el Cliente");
+            return ResponseEntity.badRequest().body(response);
         }
     }
 

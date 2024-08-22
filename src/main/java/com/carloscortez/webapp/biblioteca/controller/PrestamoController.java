@@ -34,20 +34,26 @@ public class PrestamoController {
     LibroService libroService;
 
     @GetMapping("/prestamos")
-    public ResponseEntity<List<Prestamo>> listarPrestamos() {
+    public ResponseEntity<?> listarPrestamos() {
         try {
             return ResponseEntity.ok(prestamoService.listarPrestamos());
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Error");
+            response.put("err", "No se encontraron Prestamos");
+            return ResponseEntity.badRequest().body(response);
         }
     }
 
     @GetMapping("/prestamo")
-    public ResponseEntity<Prestamo> buscarPrestamoPorId(@RequestParam Long id) {
+    public ResponseEntity<?> buscarPrestamoPorId(@RequestParam Long id) {
         try {
             return ResponseEntity.ok(prestamoService.buscarPrestamoPorId(id));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Error");
+            response.put("err", "No se encontró el Prestamo");
+            return ResponseEntity.badRequest().body(response);
         }
     }
     
@@ -118,14 +124,12 @@ public class PrestamoController {
             if(prestamoNuevo.getVigencia()){
                 libroService.cambiarDisponibilidadLibros(prestamoNuevo.getLibros());
             }
-            System.out.println(prestamo);
             prestamo.setCliente(prestamoNuevo.getCliente());
             prestamo.setEmpleado(prestamoNuevo.getEmpleado());
             prestamo.setFechaDeDevolucion(prestamoNuevo.getFechaDeDevolucion());
             prestamo.setFechaDePrestamo(prestamoNuevo.getFechaDePrestamo());
             prestamo.setLibros(prestamoNuevo.getLibros());
             prestamo.setVigencia(prestamoNuevo.getVigencia());
-            System.out.println(prestamo);
             prestamoService.guardarPrestamo(prestamo);
             response.put("message", "Prestamo modificado con éxito");
             return ResponseEntity.ok(response);

@@ -29,20 +29,26 @@ public class EmpleadoController {
     EmpleadoService empleadoService;
 
     @GetMapping("/empleados")
-    public ResponseEntity<List<Empleado>> listarEmpleados(){
+    public ResponseEntity<?> listarEmpleados(){
         try {
             return ResponseEntity.ok(empleadoService.listarEmpleados());
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Error");
+            response.put("err", "No se encontraron Empleados");
+            return ResponseEntity.badRequest().body(response);
         }
     }
 
     @GetMapping("/empleado")
-    public ResponseEntity<Empleado> buscarEmpleadoPorId(@RequestParam Long id){
+    public ResponseEntity<?> buscarEmpleadoPorId(@RequestParam Long id){
         try {
             return ResponseEntity.ok(empleadoService.buscarEmpleadoPorId(id));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Error");
+            response.put("err", "No se encontró el Empleado");
+            return ResponseEntity.badRequest().body(response);
         }
     }
 

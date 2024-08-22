@@ -29,20 +29,26 @@ public class LibroController {
     LibroService libroService;
 
     @GetMapping("/libros")
-    public ResponseEntity<List<Libro>> listaLibros() {
+    public ResponseEntity<?> listaLibros() {
         try {
             return ResponseEntity.ok(libroService.listarLibros());
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Error");
+            response.put("err", "No se encontraron Libros");
+            return ResponseEntity.badRequest().body(response);
         }
     }
 
     @GetMapping("/libro")
-    public ResponseEntity<Libro> buscarLibroPorId(@RequestParam Long id) {
+    public ResponseEntity<?> buscarLibroPorId(@RequestParam Long id) {
         try {
             return ResponseEntity.ok(libroService.buscarLibroPorId(id));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Error");
+            response.put("err", "No se encontró el Libro");
+            return ResponseEntity.badRequest().body(response);
         }
     }
     

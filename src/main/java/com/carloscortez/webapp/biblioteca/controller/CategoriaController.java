@@ -21,26 +21,31 @@ import com.carloscortez.webapp.biblioteca.service.CategoriaService;
 @Controller
 @RestController
 @RequestMapping(value = "")
-public class CategoriaController {
+public class CategoriaController{
 
     @Autowired
     CategoriaService categoriaService;
 
-    @GetMapping("/categorias")
-    public ResponseEntity<List<Categoria>> listarCategorias(){
+    public ResponseEntity<?> listarCategorias(){
         try {
             return ResponseEntity.ok(categoriaService.listarCategorias());
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Error");
+            response.put("err", "No se encontraron Categorias");
+            return ResponseEntity.badRequest().body(response);
         }
     }
 
     @GetMapping("/categoria")
-    public ResponseEntity<Categoria> buscarCategoriaPorId(@RequestParam Long id){
+    public ResponseEntity<?> buscarCategoriaPorId(@RequestParam Long id){
         try {
             return ResponseEntity.ok(categoriaService.buscarCategoriaPorId(id));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Error");
+            response.put("err", "No se encontró la Categoria");
+            return ResponseEntity.badRequest().body(response);
         }
     }
 
@@ -95,5 +100,6 @@ public class CategoriaController {
             return ResponseEntity.badRequest().body(response);
         }
     }
+
 
 }
