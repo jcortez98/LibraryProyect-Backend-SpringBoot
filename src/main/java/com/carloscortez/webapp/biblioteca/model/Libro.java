@@ -26,6 +26,8 @@ public class Libro {
     private Boolean disponibilidad;
     private String numeroEstanteria;
     private String cluster;
+    @Column(columnDefinition = "TEXT")
+    private String urlImage;
     @ManyToOne(fetch = FetchType.EAGER)
     private Categoria categoria;
     

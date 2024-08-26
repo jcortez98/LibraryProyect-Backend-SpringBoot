@@ -14,6 +14,7 @@ import com.carloscortez.webapp.biblioteca.model.Prestamo;
 import com.carloscortez.webapp.biblioteca.service.LibroService;
 import com.carloscortez.webapp.biblioteca.service.PrestamoService;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 @Controller
 @RestController
 @RequestMapping("")
+@CrossOrigin(origins = "http://localhost:5173")
 public class PrestamoController {
 
     @Autowired
@@ -87,8 +89,8 @@ public class PrestamoController {
             if(!prestamoService.verificarPrestamoVigente(prestamo)){
                 if(prestamoService.limiteDeLibrosValido(prestamo)){
                     if(libroService.verificarDisponibilidadLibros(prestamo.getLibros())){
-                        libroService.cambiarDisponibilidadLibros(prestamo.getLibros());
                         prestamoService.guardarPrestamo(prestamo);
+                        libroService.cambiarDisponibilidadLibros(prestamo.getLibros());
                         response.put("message", "Prestamo creado con éxito");
                         return ResponseEntity.ok(response);
                     }else{
